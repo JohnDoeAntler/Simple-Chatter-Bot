@@ -6,7 +6,7 @@
 static String:KVPath[PLATFORM_MAX_PATH];
 static String:SKVPath[PLATFORM_MAX_PATH];
 new String:Words[100][30][256];
-new Array[100];
+new Array[100][32];
 new Handle:ChatPrefix = INVALID_HANDLE;
 new Handle:ChatSuffix = INVALID_HANDLE;
 new String:Chats[100][1][256];
@@ -80,21 +80,21 @@ public Action:Command_Say(client, args)
 				CreateTimer(typetime, DelayChat, pack);
 				pack.WriteCell(i);
 				pack.WriteString(Sclient);
-				Array[i] = true;
+				Array[i][client] = true;
 				if(Iblock == 1)
 				{
 					return Plugin_Handled;
 				}
 			}else if ((StrEqual(arg1, Words[i][0], false) || StrEqual(arg1, Words[i][12], false) || StrEqual(arg1, Words[i][13], false) || StrEqual(arg1, Words[i][14], false)) && !StrEqual(Words[i][2], NULL_STRING))
 			{
-				if(Array[SWord] == true)
+				if(Array[SWord][client] == true)
 				{
 					DataPack pack = new DataPack();
 					CreateTimer(typetime, DelayChat, pack);
 					pack.WriteCell(i);
 					pack.WriteString(Sclient);
-					Array[i] = true;
-					Array[SWord] = false;
+					Array[i][client] = true;
+					Array[SWord][client] = false;
 					if(Iblock == 1)
 					{
 						return Plugin_Handled;
@@ -120,21 +120,21 @@ public Action:Command_Say(client, args)
 				CreateTimer(typetime, DelayChat, pack);
 				pack.WriteCell(i);
 				pack.WriteString(Sclient);
-				Array[i] = true;
+				Array[i][client] = true;
 				if(Iblock == 1)
 				{
 					return Plugin_Handled;
 				}
 			}else if (((StrContains(arg1, Words[i][4], false) != -1) || (StrContains(arg1, Words[i][15], false) != -1) || (StrContains(arg1, Words[i][16], false) != -1) || (StrContains(arg1, Words[i][17], false) != -1)) && !StrEqual(Words[i][2], NULL_STRING))
 			{
-				if(Array[SWord] == true)
+				if(Array[SWord][client] == true)
 				{
 					DataPack pack = new DataPack();
 					CreateTimer(typetime, DelayChat, pack);
 					pack.WriteCell(i);
 					pack.WriteString(Sclient);
-					Array[i] = true;
-					Array[SWord] = false;
+					Array[i][client] = true;
+					Array[SWord][client] = false;
 					if(Iblock == 1)
 					{
 						return Plugin_Handled;
@@ -154,21 +154,21 @@ public Action:Command_Say(client, args)
 				CreateTimer(typetime, DelayChat, pack);
 				pack.WriteCell(i);
 				pack.WriteString(Sclient);
-				Array[i] = true;
+				Array[i][client] = true;
 				if(Iblock == 1)
 				{
 					return Plugin_Handled;
 				}
 			}else if (((StrContains(arg1, Words[i][4], false) != -1) || (StrContains(arg1, Words[i][15], false) != -1) || (StrContains(arg1, Words[i][16], false) != -1)) && !StrEqual(Words[i][2], NULL_STRING))
 			{
-				if(Array[SWord] == true)
+				if(Array[SWord][client] == true)
 				{
 					DataPack pack = new DataPack();
 					CreateTimer(typetime, DelayChat, pack);
 					pack.WriteCell(i);
 					pack.WriteString(Sclient);
-					Array[i] = true;
-					Array[SWord] = false;
+					Array[i][client] = true;
+					Array[SWord][client] = false;
 					if(Iblock == 1)
 					{
 						return Plugin_Handled;
@@ -188,21 +188,21 @@ public Action:Command_Say(client, args)
 				CreateTimer(typetime, DelayChat, pack);
 				pack.WriteCell(i);
 				pack.WriteString(Sclient);
-				Array[i] = true;
+				Array[i][client] = true;
 				if(Iblock == 1)
 				{
 					return Plugin_Handled;
 				}
 			}else if (((StrContains(arg1, Words[i][4], false) != -1) || (StrContains(arg1, Words[i][15], false) != -1)) && !StrEqual(Words[i][2], NULL_STRING))
 			{
-				if(Array[SWord] == true)
+				if(Array[SWord][client] == true)
 				{
 					DataPack pack = new DataPack();
 					CreateTimer(typetime, DelayChat, pack);
 					pack.WriteCell(i);
 					pack.WriteString(Sclient);
-					Array[i] = true;
-					Array[SWord] = false;
+					Array[i][client] = true;
+					Array[SWord][client] = false;
 					if(Iblock == 1)
 					{
 						return Plugin_Handled;
@@ -222,21 +222,21 @@ public Action:Command_Say(client, args)
 				CreateTimer(typetime, DelayChat, pack);
 				pack.WriteCell(i);
 				pack.WriteString(Sclient);
-				Array[i] = true;
+				Array[i][client] = true;
 				if(Iblock == 1)
 				{
 					return Plugin_Handled;
 				}
 			}else if ((StrContains(arg1, Words[i][4], false) != -1) && !StrEqual(Words[i][2], NULL_STRING))
 			{
-				if(Array[SWord] == true)
+				if(Array[SWord][client] == true)
 				{
 					DataPack pack = new DataPack();
 					CreateTimer(typetime, DelayChat, pack);
 					pack.WriteCell(i);
 					pack.WriteString(Sclient);
-					Array[i] = true;
-					Array[SWord] = false;
+					Array[i][client] = true;
+					Array[SWord][client] = false;
 					if(Iblock == 1)
 					{
 						return Plugin_Handled;
@@ -246,6 +246,7 @@ public Action:Command_Say(client, args)
 		}
 	i++
 	}
+	return Plugin_Continue;
 }
 
 public LoadWord()
@@ -256,7 +257,7 @@ public LoadWord()
 	new String:Aanswer[128], String:Banswer[128], String:Canswer[128], String:Danswer[128], String:Eanswer[128], count, String:Scount[32];	// 5 Random answer
 	new String:Aequal[32], String:Bequal[32], String:Cequal[32];
 	new String:Acontains[32], String:Bcontains[32], String:Ccontains[32];
-	new String:block[32], String:flags[64], cooldown, String:Scooldown[32];
+	new String:block[32], String:flags[64], cooldown, String:Scooldown[32], String:cooldownwarn[32];
 	
 	FileToKeyValues(DB, KVPath);
 	KvGotoFirstSubKey(DB); // Start
@@ -281,6 +282,7 @@ public LoadWord()
 	KvGetString(DB, "contains4", Ccontains, 32);
 	KvGetString(DB, "block", block, 32);
 	KvGetString(DB, "flags", flags, 32);
+	KvGetString(DB, "cooldownwarn", cooldownwarn, 32);
 	count = KvGetNum(DB, "count", 1)
 	IntToString(count, Scount, sizeof(Scount));
 	cooldown = KvGetFloat(DB, "cooldown", 3.0);
@@ -307,6 +309,7 @@ public LoadWord()
 	Words[0][19] = flags;
 	Words[0][20] = Scooldown;
 	Words[0][21] = "1";
+	Words[0][22] = cooldownwarn;
 	KvGetSectionName(DB, temp_name, sizeof(temp_name));
 	
 	while(i < 100)
@@ -336,6 +339,7 @@ public LoadWord()
 		KvGetString(DB, "contains4", Ccontains, 32);
 		KvGetString(DB, "block", block, 32);
 		KvGetString(DB, "flags", flags, 32);
+		KvGetString(DB, "cooldownwarn", cooldownwarn, 32);
 		count = KvGetNum(DB, "count", 1)
 		IntToString(count, Scount, sizeof(Scount));
 		cooldown = KvGetFloat(DB, "cooldown", 3.0);
@@ -362,6 +366,7 @@ public LoadWord()
 		Words[i][19] = flags;
 		Words[i][20] = Scooldown;
 		Words[i][21] = "1";
+		Words[i][22] = cooldownwarn;
 		KvGetSectionName(DB, temp_name, sizeof(temp_name));
 		i++;
 	}
@@ -436,6 +441,34 @@ public Action:DelayChat(Handle:timer, Handle:pack)
 		DataPack Spack = new DataPack();
 		Spack.WriteCell(i);
 		CreateTimer(cooldown, CooldownTime, Spack);
+		CloseHandle(pack);
+	}else if((IChatEnable == 1) && StrEqual(Words[i][21], "0"))
+	{
+		new String:Sclient[32], client, String:name[32], String:SID[128], userid, String:Suserid[32], String:m_gzWord[256];
+		
+		ReadPackString(pack, Sclient, sizeof(Sclient));
+		client = StringToInt(Sclient);
+		GetClientName(client, name, sizeof(name));
+		userid = GetClientUserId(client);
+		IntToString(userid, Suserid, sizeof(Suserid));
+		//GetClientAuthString(client, SID, sizeof(SID));
+		GetClientAuthId(client, AuthId_Steam2, SID, sizeof(SID));
+		
+		m_gzWord = Words[i][22];
+		
+		new String:SChatPrefix[128], String:SChatSuffix[128];
+		GetConVarString(ChatPrefix, SChatPrefix, sizeof(SChatPrefix));
+		GetConVarString(ChatSuffix, SChatSuffix, sizeof(SChatSuffix));
+		
+		ReplaceString(m_gzWord, sizeof(m_gzWord), "{name}", name);
+		ReplaceString(m_gzWord, sizeof(m_gzWord), "{steamid}", SID);
+		ReplaceString(m_gzWord, sizeof(m_gzWord), "{userid}", Suserid);
+		
+		if(!StrEqual(m_gzWord, ""))
+		{
+			CPrintToChatAll("%s%s%s", SChatPrefix, m_gzWord, SChatSuffix);
+		}
+		
 		CloseHandle(pack);
 	}
 }
